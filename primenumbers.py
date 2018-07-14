@@ -34,18 +34,18 @@ def primeuptogivennumber(thelist, yournumber): #Used by the primefactorization()
 	
 def primefactorization(inputno):
 	inputnumber = int(inputno)
-	primenumberlist = primeuptogivennumber([], inputnumber)
-	listofprimes = primefactorrecursive(inputnumber, primenumberlist, [])
+	#primenumberlist = primeuptogivennumber([], inputnumber)
+	listofprimes = primefactorrecursive(inputnumber, [])
 	if len(listofprimes) == 0:
 		listofprimes = [inputnumber]
 	return listofprimes
 
-def primefactorrecursive(inputno, listofallprimes, listofcurrentprimes):
-	for number in listofallprimes:
+def primefactorrecursive(inputno, listofcurrentprimes):
+	for number in range(2, inputno+1):
 		if inputno % number == 0:
 			listofcurrentprimes.append(number)
 			if inputno/number != 1:
-				return primefactorrecursive((inputno/number), listofallprimes, listofcurrentprimes)
+				return primefactorrecursive((inputno/number), listofcurrentprimes)
 			break
 	return listofcurrentprimes
 	
