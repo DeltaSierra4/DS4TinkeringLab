@@ -1,3 +1,8 @@
+import math
+import itertools
+
+range = lambda stop: iter(itertools.count().next, stop)
+
 #############################################################################
 #Prime factorization program written by Vincent Yang (DeltaSierra4)         #
 #Use this program to find out if a given positive number is a prime number  #
@@ -22,31 +27,29 @@ def checkifprime(inputno): #Type an integer in and returns True if the integer i
 	else:
 		return False
 
-def primeuptogivennumber(thelist, yournumber): #Used by the primefactorization() method to create a list of prime numbers up to given number.
-	#Returns the complete list of all prime numbers between 2 and given number.
-	primenumber = 2
-	while primenumber <= yournumber/2 + 1:
-		primeflag = checkifprime(primenumber)
-		if primeflag:
-			thelist.append(primenumber)
-		primenumber += 1
-	return thelist
-	
 def primefactorization(inputno):
 	inputnumber = int(inputno)
-	#primenumberlist = primeuptogivennumber([], inputnumber)
 	listofprimes = primefactorrecursive(inputnumber, [])
 	if len(listofprimes) == 0:
 		listofprimes = [inputnumber]
 	return listofprimes
 
 def primefactorrecursive(inputno, listofcurrentprimes):
-	for number in range(2, inputno+1):
-		if inputno % number == 0:
+	endnum = inputno
+	if inputno >= 4:
+		endnum = int(math.sqrt(inputno))+1
+	else:
+		endnum = 3
+	for number in range(endnum):
+		if number == 0 or number == 1:
+			continue
+		elif inputno % number == 0:
 			listofcurrentprimes.append(number)
 			if inputno/number != 1:
 				return primefactorrecursive((inputno/number), listofcurrentprimes)
 			break
+		elif number == endnum-1:
+			listofcurrentprimes.append(inputno)
 	return listofcurrentprimes
 	
 
@@ -57,6 +60,7 @@ while not programexit:
 	print("Type 2 and press enter to do a prime factorization for any positive integer.")
 	userchoice = raw_input("Type 3 and press enter to exit the program.")
 	if userchoice == "1":
+		print("For this function, prime numbers greater than 3 * 10^14 may take significant time.")
 		while not validinput:
 			inputnumberstr = raw_input("Type in a positive integer.")
 			if inputnumberstr.isdigit():
@@ -75,7 +79,7 @@ while not programexit:
 		else:
 			print(inputnumberstr + " is not a prime number.")
 	elif userchoice == "2":
-		print("For this function, values greater than 10000 may take significant time.")
+		print("For this function, prime numbers greater than 3 * 10^14 may take significant time.")
 		while not validinput:
 			inputnumber = raw_input("Type in a positive integer greater than 1.")
 			if inputnumber.isdigit() and int(inputnumber) >= 2:
